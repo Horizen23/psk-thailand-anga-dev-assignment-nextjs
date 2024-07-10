@@ -3,13 +3,16 @@ import Navbar, { NavbarProps } from "@/component/Navbar";
 import { API_CONFIG } from "@/config/api-config";
 import { services } from '@/services';
 
-export default async function layout({
-  children,
-  weather,
-}: Readonly<{
-  children: React.ReactNode;
-  weather: React.ReactNode;
-}>) {
+import React, { ReactNode } from 'react';
+
+interface LayoutProps {
+  children: ReactNode;
+}
+
+
+
+
+const Layout = async (props: LayoutProps) => {
   const contentNavbar = await services.CMSService.getContentNavbar()
   const contentFooter = await services.CMSService.getContentFooter()
   const getUrlImage = (path: string) => {
@@ -27,8 +30,7 @@ export default async function layout({
     <main>
     <Navbar logoSrc={navbarProps.logoSrc} logoAlt={navbarProps.logoAlt} dropdowns={navbarProps.dropdowns} buttons={navbarProps.buttons}
       />
-    {children}
-    {weather}
+    {props.children}
     <Footer 
         contents={contentFooter.contents} 
         header={contentFooter.header} 
@@ -43,3 +45,5 @@ export default async function layout({
    </main>
   );
 }
+
+export default Layout
